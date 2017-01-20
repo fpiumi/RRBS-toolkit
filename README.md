@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # RRBS-toolkit
 
 Our pipeline is a comprehensive set of tools allowing to conduct RRBS analysis, from the optimisation of experimental design, up to the identification of differentially methylated regions DMRs between two groups of samples.
@@ -55,3 +56,7 @@ export RRBS_HOME=/path_to_the_directory/where/RRBS_toolkit/has/been/installed
 (you can place this line of shell script in your file $HOME/.profile).
 
 
+=======
+# faang-methylation
+This repo is to collect the FAANG methylation group's code and pipelines
+>>>>>>> 0dc9170ef70d9f19cd8d3493e267191ef10a62a8

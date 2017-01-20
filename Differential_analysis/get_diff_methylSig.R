@@ -313,7 +313,7 @@ if (!is.null(selResults)) {#There are some results
 	cat("\t",date(),"\tProduces output ...\n",file=logFile,append=T,sep="")
 	
 	output.file=paste(output_dir,"/MethylSig - ",title," - ",stat_value,stat_threshold1,sep="")
-	
+
 	pdf(paste(output.file,".pdf",sep=""))
 
 	#Histogramme des pValues brutes
@@ -353,19 +353,20 @@ if (!is.null(selResults)) {#There are some results
 
 	#Distributiobn methylation pour les sondes significatives
 	par(bg="gray")
-	for (stat.threshold in c(stat_threshold1,stat_threshold2)) {
+	for (stat_threshold in c(stat_threshold1,stat_threshold2)) {
 	for (i in 1:length(sample.id)) {
 		smp=sample.id[i]
-		selResults=selectSignificative(stat.threshold,methdiff_threshold)
+		selResults=selectSignificative(stat_threshold,methdiff_threshold)
 		coverages=as.numeric(as.character(selResults[,paste("Cov",smp,sep="")]))
 		ratios=as.numeric(as.character(selResults[,paste("FreqC",smp,sep="")]))/coverages
-		hist(ratios,nclass=100,xlab="% methylation",main=paste("Methylation distribution in DMC for ",smp,"\n",stat_value,"=",stat.threshold,sep=""))
+		hist(ratios,nclass=100,xlab="% methylation",main=paste("Methylation distribution in DMC for ",smp,"\n",stat_value,"=",stat_threshold,sep=""))
 	}
 	}
 	
 	dev.off()
 
 	#Output for stat_threshold1
+	selResults=selectSignificative(stat_threshold1,methdiff_threshold)
 	selResults=selResults[,-grep("Position",colnames(selResults))]
 	selResults[,ncol(selResults)]=-as.numeric(as.character(selResults[,ncol(selResults)]))
 
@@ -377,7 +378,7 @@ if (!is.null(selResults)) {#There are some results
 	output.file=paste(output_dir,"/MethylSig - ",title," - ",stat_value,stat_threshold1,sep="")
 	write.table(file=paste(output.file,".txt",sep=""),selResults,sep="\t",row.names=F,quote=F)
 	
-	#Output for stat_threshold1 : needed to extend DMRs
+	#Output for stat_threshold2 : needed to extend DMRs
 	selResults=selectSignificative(stat_threshold2,methdiff_threshold)
 	selResults=selResults[,-grep("Position",colnames(selResults))]
 	selResults[,ncol(selResults)]=-as.numeric(as.character(selResults[,ncol(selResults)]))

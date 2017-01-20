@@ -121,7 +121,7 @@ try :
 		elmts=line.split("\t")
 		chr=elmts[0]
 		pos=elmts[1]
-		value=float(elmts[-2])
+		value=float(elmts[-3])
 		if value < stat_threshold1:
 			out_bed1.write(chr+"\t"+pos+"\t"+str(int(pos)+1)+"\t"+"\n")
 		if value < stat_threshold2:

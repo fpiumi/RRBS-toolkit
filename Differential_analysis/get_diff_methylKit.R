@@ -407,7 +407,13 @@ if (!is.null(selResults)) {#There are some results
 	#Histogramme des pValues brutes
 	rawp=as.numeric(as.character(mkDiff2[,"pvalue"]))
 	hist(rawp,xlab="Raw pValue",main="Histogram of raw pValues",nclass=100)
-	hist(rawp[rawp<0.01],xlab="Raw pValue",main="Histogram of raw pValues\n(Zoom on pvalue<1%)",nclass=100)
+	if (sum(rawp<0.01)>100) {
+		hist(rawp[rawp<0.01],xlab="Raw pValue",main="Histogram of raw pValues\n(Zoom on pvalue<1%)",nclass=100)
+	} else {
+		if (sum(rawp<0.05)>100) {
+			hist(rawp[rawp<0.05],xlab="Raw pValue",main="Histogram of raw pValues\n(Zoom on pvalue<5%)",nclass=100)
+		}
+	}
 
 	#Histogramme des differences de méylation pour les réltats jugéignificatifs
 	hTrue=hist(as.numeric(as.character(selResults[,"Methyl diff"])),nclass=100,plot=F)
@@ -454,6 +460,7 @@ if (!is.null(selResults)) {#There are some results
 	dev.off()
 
 	#Output for stat_threshold1
+	selResults=selectSignificative(stat_threshold1,methdiff_threshold)
 	selResults=selResults[,-grep("Position",colnames(selResults))]
 	selResults[,ncol(selResults)]=-as.numeric(as.character(selResults[,ncol(selResults)]))
 
@@ -465,7 +472,7 @@ if (!is.null(selResults)) {#There are some results
 	output.file=paste(output_dir,"/MethylKit - ",title," - ",stat_value,stat_threshold1,sep="")
 	write.table(file=paste(output.file,".txt",sep=""),selResults,sep="\t",row.names=F,quote=F)
 
-	#Output for stat_threshold1 : needed to extend DMRs
+	#Output for stat_threshold2 : needed to extend DMRs
 	selResults=selectSignificative(stat_threshold2,methdiff_threshold)
 	selResults=selResults[,-grep("Position",colnames(selResults))]
 	selResults[,ncol(selResults)]=-as.numeric(as.character(selResults[,ncol(selResults)]))

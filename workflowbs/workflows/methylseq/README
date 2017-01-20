@@ -1,0 +1,100 @@
+## What is workflowBS ?
+  workflowBS/methylseq is an application based on Jflow (full documentation 
+  available http://genoweb.toulouse.inra.fr:8090/app/index.html)
+  This application was design to process bisulfite data (wgbs or rrbs / 
+  single and paired reads).
+  To do so, this application
+  - index the reference genome - Bismark (if not available)
+  - clean data - trim_galore
+  - align reads on a reference and/or a control genome - Bismark
+  - remove duplicates if the data are not rrbs - samtools
+  - extract methylation - methylKit (soon available with bimsmark 
+    methylation extractor)
+  - remove SNP positions - home-made script (if VCF file is provided)
+  - research DMC - methylKit (soon available with DSS)
+
+  For the moment, the pipeline is only available from command line even
+  if Jflow provides a web server mode.
+  
+ ############################################################################## 
+ ## Prerequists
+  * Jflow
+  * Python: the supported versions are 3.2 or higher. 
+  * Makeflow: a workflow engine for executing large complex workflows on 
+  clusters, clouds, and grids. The supported version is v4.4.3. 
+  http://ccl.cse.nd.edu/software/files/cctools-4.4.3-source.tar.gz
+  * FastQC
+  * Trim_galore v0.4
+  * Bismark 1.15
+  * Bowtie 1 or Bowtie 2
+  * R 3.3.0  (If you statistics analyze)
+	
+##############################################################################
+## INSTALLATION
+Go into workflows directory of jflow application
+cd jflow/workflows
+
+Retrieve pipeline methylseq
+svn checkout svn://scm.mulcyber.toulouse.inra.fr/svnroot/jflow-toolshed/trunk/methylseq
+
+R packages installation:
+if you are in a distribuated system and you can not install R package, fix the env variable $R_LIBS=~/Rlib and create directory.
+eg :
+export R_LIBS="~/save/Rlib"
+mkdir ~/save/Rlib
+And then run the scripts
+Rscript ./methylseq/bin/install_r_package_for_dss.R
+Rscript ./methylseq/bin/install_r_package_for_methylkit.R
+
+Info: if packages are not available on the system, the script automatically install it 
+but note that if you are on a multi-user system the R_LIBS environment variable must
+be set to an existing directory located in your home directory.
+
+
+
+
+##############################################################################
+## Run a workflow
+
+You can run a workflow by using the command line parameters or by using a configuration
+file. A configuration file example is given in workflows/methylseq/data/test_wgbs_paired.conf.
+
+
+## Using the configuration file, the corresponding command line is :
+
+python3 ./bin/jflow_cli.py methylseq @workflows/methylseq/data/test_wgbs_paired.conf
+
+## Using parameters, the command line is :
+
+python3 ./bin/jflow_cli.py methylseq --reference-genome workflows/methylseq/data/Gallus_gallus.Galgal4.dna.chromosome.7.fa \
+--snp-reference workflows/methylseq/data/snp.vcf \
+--sample sample-name=sample1 read1=workflows/methylseq/data/sample1.R1.fastq.gz read2=workflows/methylseq/data/sample1.R2.fastq.gz \
+--sample sample-name=sample2 read1=workflows/methylseq/data/sample2.R1.fastq.gz read2=workflows/methylseq/data/sample2.R2.fastq.gz \
+--sample sample-name=sample3 read1=workflows/methylseq/data/sample3.R1.fastq.gz read2=workflows/methylseq/data/sample3.R2.fastq.gz \
+--sample sample-name=sample4 read1=workflows/methylseq/data/sample4.R1.fastq.gz read2=workflows/methylseq/data/sample4.R2.fastq.gz \
+--sample sample-name=sample5 read1=workflows/methylseq/data/sample5.R1.fastq.gz read2=workflows/methylseq/data/sample5.R2.fastq.gz \
+--sample sample-name=sample6 read1=workflows/methylseq/data/sample6.R1.fastq.gz read2=workflows/methylseq/data/sample6.R2.fastq.gz \
+--sample sample-name=sample7 read1=workflows/methylseq/data/sample7.R1.fastq.gz read2=workflows/methylseq/data/sample7.R2.fastq.gz \
+--sample sample-name=sample8 read1=workflows/methylseq/data/sample8.R1.fastq.gz read2=workflows/methylseq/data/sample8.R2.fastq.gz \
+--coverage 5  --context CpG \
+--test test-name=sex pool1=sample1,sample4,sample5,sample8 pool2=sample2,sample3,sample6,sample7 normalization=1 filter=1 correct=BH alpha=0.05 
+
+##############################################################################
+# Errors
+
+Get the id of your workflow with 
+python3 bin/jflow_cli.py status 
+
+If your workflow failed, please try the command:
+python3 bin/jflow_cli.py status --workflow-id VALUE --errors
+
+You will get the line wich failled and have access to the stderr file.
+Example :
+  Failed Commands :
+  - MethylKitExtractor.CpG :
+    /work/user/JflowSvn/work/methylseq/wf000001/.working/6b2330a007/_Stash/0/0/0/w000001B /work/fescudie/JflowSvn/work/methylseq/wf000001/SamtoolsSortSam_default/sample2_clean.sam /work/fescudie/JflowSvn/work/methylseq/wf000001/MethylKitExtractor_CpG/sample2_clean_CpG.txt */work/fescudie/JflowSvn/work/methylseq/wf000001/MethylKitExtractor_CpG/sample2_clean_CpG.stderr*
+
+##############################################################################
+# Support
+Support is available by email at support.genopole@toulouse.inra.fr
+

@@ -86,7 +86,7 @@ then
 	$PYTHON_EXECUTE $SCRIPT_DIR/rename_scaffolds.py 1 $configFile $logFile $WORK $PID
 	if [ $? -ne 0 ]
 	then
-		echo "L'etape rename_scaffolds.pl (1) a echoue" >> $logFile
+		echo "Step rename_scaffolds.py (1) has failed" >> $logFile
 		exit 1
 	fi
 
@@ -100,18 +100,24 @@ then
 		echo "Unexpected value for 'stat_method' parameter : Recieved '$statistical_method'. Attempted either 'methylSig' or 'methylKit'."
 		exit 1
 	fi
+	if [ $? -ne 0 ]
+	then
+		echo "Differential analsysis step with '$statistical_method' failed." >> $logFile
+		exit 1
+	fi
+
 	
 	$PYTHON_EXECUTE $SCRIPT_DIR/rename_scaffolds.py 2 $configFile $logFile $WORK $PID
 	if [ $? -ne 0 ]
 	then
-		echo "L'etape rename_scaffolds.pl (2) a echoue" >> $logFile
+		echo "Step rename_scaffolds.py (2) has failed" >> $logFile
 		exit 1
 	fi
 
 	$PYTHON_EXECUTE $SCRIPT_DIR/get_bed_from_methylDiff.py $configFile $logFile
 	if [ $? -ne 0 ]
 	then
-		echo "L'etape get_bed_from_methylKit.pl a echoue" >> $logFile
+		echo "Step get_bed_from_methylKit.py has failed" >> $logFile
 		exit 1
 	fi
 fi
@@ -121,7 +127,7 @@ then
 	$PYTHON_EXECUTE $SCRIPT_DIR/get_obvious_DMC.py $configFile $logFile
 	if [ $? -ne 0 ]
 	then
-		echo "L'etape get_obvious_DMC.pl a echoue" >> $logFile
+		echo "Step get_obvious_DMC.py has failed" >> $logFile
 		exit 1
 	fi
 fi
@@ -131,7 +137,7 @@ then
 	$PYTHON_EXECUTE $SCRIPT_DIR/merge_DMCs.py $configFile $logFile
 	if [ $? -ne 0 ]
 	then
-		echo "L'etape merge_DMCs.pl a echoue" >> $logFile
+		echo "Step merge_DMCs.py has failed" >> $logFile
 		exit 1
 	fi
 fi
@@ -139,7 +145,7 @@ fi
 $PYTHON_EXECUTE $SCRIPT_DIR/get_DMRs.py $configFile $logFile
 if [ $? -ne 0 ]
 then
-	echo "L'etape get_DMRs.pl a echoue" >> $logFile
+	echo "Step get_DMRs.py has failed" >> $logFile
 	exit 1
 fi
 

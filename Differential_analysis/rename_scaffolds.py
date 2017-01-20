@@ -28,6 +28,7 @@
 
 import os
 import re
+import glob
 import sys
 from sys import argv
 
@@ -185,29 +186,34 @@ else:
 		except IOError as exc:
 			sys.exit("Unable to read chromosome table file '"+chr_table_file+" : {0}".format(exc))
 	
-		file_out=file_to_treat.replace(".txt",".tmp")
-		try :
-			in_file=open(file_to_treat,"rt")
-			out_file=open(file_out,"wt")
-			no_line=0
-			for line in in_file.readlines():
-				line=line.rstrip("\n")
-				no_line+=1
-				if no_line==1:
+		file_to_treat=re.sub("[pq]value[.0-9]+.txt","*.txt",file_to_treat)
+
+		files_to_treat=glob.glob(file_to_treat)
+		for file_to_treat in files_to_treat :
+			file_out=file_to_treat.replace(".txt",".tmp")
+			try :
+				in_file=open(file_to_treat,"rt")
+				out_file=open(file_out,"wt")
+				no_line=0
+				for line in in_file.readlines():
+					line=line.rstrip("\n")
+					no_line+=1
+					if no_line==1:
+						out_file.write(line+"\n")
+						continue
+					elmts=line.split("\t")
+					no_chr=elmts[0]
+					pos=elmts[1]
+	
+					if no_chr in chromosome_table:
+						elmts[0]=chromosome_table[no_chr]
+					line="\t".join(elmts);
 					out_file.write(line+"\n")
-					continue
-				elmts=line.split("\t")
-				chr=elmts[0]
-				pos=elmts[1]
-				if no_chr in chromosome_table:
-					elmts[0]=chromosome_table[no_chr]
-				line="\t".join(elmts);
-				out_file.write(line+"\n")
-			in_file.close()
-			out_file.close()
-			os.rename(file_out,file_to_treat)
-		except IOError as exc:
-			sys.exit("Unable to replace chromosome value in file '"+chr_table_file+" : {0}".format(exc))
+				in_file.close()
+				out_file.close()
+				os.rename(file_out,file_to_treat)
+			except IOError as exc:
+				sys.exit("Unable to replace chromosome value in file '"+chr_table_file+" : {0}".format(exc))
 		out_log.write("STATUS OK\n")
 	except IOError as exc:
 		sys.exit("Unable to write to log file '"+log_file+" : {0}".format(exc))
