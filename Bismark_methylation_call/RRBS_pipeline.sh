@@ -2,8 +2,8 @@
 #Parameters for SGE submission:
 #$ -e log/RRBS_pipeline_$JOB_ID.err
 #$ -o log/RRBS_pipeline_$JOB_ID.out
-#$ -l mem=10G
-#$ -l h_vmem=20G
+#$ -l mem=20G
+#$ -l h_vmem=40G
 #
 # Copyright (C) 2016 INRA
 # 
