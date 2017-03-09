@@ -176,7 +176,10 @@ def get_distance_value(parameter,me,value_group=1,unit_group=4) :
 # Start of main program
 ###############################################################################
 file_config=argv[1]
+<<<<<<< HEAD
 params=argv[2:len(argv)]
+=======
+>>>>>>> a8ec57af769cc22be1e91bf25ec2e9e1da390f87
 
 try :
 	in_config=open(file_config,"rt")
@@ -200,6 +203,7 @@ try :
 		me=re.match("^[ \t]*#.*$",line)
 		if me :
 			continue
+<<<<<<< HEAD
 
 		#positionnal parameters
 		me=re.match("^.*[$]([0-9]+).*",line)
@@ -208,6 +212,8 @@ try :
 			line=re.sub("[$][0-9]+",params[idx_param-1],line)
 			me=re.match("^.*[$]([0-9]+).*",line)
 
+=======
+>>>>>>> a8ec57af769cc22be1e91bf25ec2e9e1da390f87
 		me=re.match("^file_to_annotate[\t ]+([^#\t]+).*$",line)
 		if me :
 			file_to_annotate=me.group(1)
