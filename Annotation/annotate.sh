@@ -48,10 +48,7 @@ then
 	exit 1
 fi
 
-<<<<<<< HEAD
-$PYTHON_EXECUTE $RRBS_HOME/Annotation/annotk/annotk.py $*
-=======
+
 $PYTHON_EXECUTE $RRBS_HOME/Annotation/annotk/annotk.py "$1"
->>>>>>> a8ec57af769cc22be1e91bf25ec2e9e1da390f87
 exit $?
 
