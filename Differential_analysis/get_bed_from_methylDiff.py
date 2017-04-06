@@ -123,9 +123,9 @@ try :
 		pos=elmts[1]
 		value=float(elmts[-3])
 		if value < stat_threshold1:
-			out_bed1.write(chr+"\t"+pos+"\t"+str(int(pos)+1)+"\t"+"\n")
+			out_bed1.write(chr+"\t"+pos+"\t"+str(int(float(pos))+1)+"\t"+"\n")
 		if value < stat_threshold2:
-			out_bed2.write(chr+"\t"+pos+"\t"+str(int(pos)+1)+"\t"+"\n")
+			out_bed2.write(chr+"\t"+pos+"\t"+str(int(float(pos))+1)+"\t"+"\n")
 	
 	in_file.close()
 	out_bed1.close()
