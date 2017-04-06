@@ -39,7 +39,8 @@ BOWTIE_HOME=/usr/local/bioinfo/src/bowtie/bowtie-0.12.9
 TRIMGALORE_EXECUTE=/usr/local/bioinfo/src/Trim_Galore/trim_galore_v0.4.0/trim_galore
 
 #path to the cut_adapt executable file
-CUTADAPT_EXECUTE=/usr/local/bioinfo/src/cutadapt/cutadapt-1.7.1/bin/cutadapt
+#CUTADAPT_EXECUTE=/usr/local/bioinfo/src/cutadapt/cutadapt-1.7.1/bin/cutadapt
+CUTADAPT_EXECUTE=/usr/local/bioinfo/src/python/current/bin/cutadapt
 
 #path to the samtools executable file
 SAMTOOLS_EXECUTE=/usr/local/bioinfo/src/samtools/samtools-1.1/samtools
