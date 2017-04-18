@@ -99,7 +99,7 @@ try :
 			continue
 		me=re.match("^#max_distance_between_DMCs\t([^#]*)(#.*)?$",line)
 		if me is not None:
-			max_distance_between_DMCs=int(me.group(1))
+			max_distance_between_DMCs=int(float(me.group(1)))
 			continue
 		me=re.match("^#stat_value\t([^#]*)(#.*)?$",line)
 		if me is not None:
@@ -187,7 +187,7 @@ try:
 		line=line.rstrip("\n")
 		elmts=line.split("\t")
 		chr=elmts[0]
-		start=int(elmts[1])
+		start=int(float(elmts[1]))
 		fc=elmts[-1]
 		if chr not in DMCs:
 			DMCs[chr]={}
@@ -320,7 +320,7 @@ if from_merge_step :
 			line=line.rstrip("\n")
 			elmts=line.split("\t")
 			chr=elmts[0]
-			start=int(elmts[1])
+			start=int(float(elmts[1]))
 			pv=float(elmts[-3])
 			if pv<stat_threshold1 :
 				continue
@@ -348,7 +348,7 @@ if from_merge_step :
 		extended_DMRs={}
 		for island_start in sorted(DMRs[chr]) :
 			(island_end,fc_DMR)=DMRs[chr][island_start].split("\t")
-			island_end=int(island_end)
+			island_end=int(float(island_end))
 			new_start=island_start
 			new_end=island_end
 			if debug :
@@ -408,7 +408,7 @@ if from_merge_step :
 				skip_next=False
 				island_start=starts[idx]
 				(island_end,fc_DMR)=extended_DMRs[island_start].split("\t")
-				island_end=int(island_end)
+				island_end=int(float(island_end))
 
 				next_start=starts[idx+1]
 				(next_end,next_fc)=extended_DMRs[next_start].split("\t")
@@ -446,7 +446,7 @@ if from_merge_step :
 			for island_start in sorted(new_DMRs[chr]) :
 				nb_DMRs+=1
 				(island_end,fc_DMR)=new_DMRs[chr][island_start].split("\t")
-				island_end=int(island_end)
+				island_end=int(float(island_end))
 
 				#Unify and sort list of CpGs
 				list_DMCs=list(sorted(set(composition_of_DMRs[chr][island_start])))

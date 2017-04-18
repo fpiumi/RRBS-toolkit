@@ -38,14 +38,14 @@ def CpG_compare(x, y):
 	CpG2=y.split(".")
 	if (CpG1[0] == CpG2[0]):
 		#Meme chromosome : on compare numeriquement les coordonnees
-		return int(CpG1[1]) - int(CpG2[1])
+		return int(float(CpG1[1])) - int(float(CpG2[1]))
 	else:
 		#Les chromosomes sont dfifferents : on les compare
 		chr1_is_num=re.match("^[0-9]+$",CpG1[0])
 		chr2_is_num=re.match("^[0-9]+$",CpG2[0])
 		if chr1_is_num!=None and chr2_is_num!=None:
 			#Les 2 chromosomes sont numeriques : on les compare numeriquement
-			return int(CpG1[0]) - int(CpG2[0])
+			return int(float(CpG1[0])) - int(float(CpG2[0]))
 		elif chr1_is_num!=None:
 			#Seule le chromosome 1 est numerique
 			return -1
@@ -214,7 +214,7 @@ try:
 		if me is None:
 			sys.exit("Cannot interpret CpG position '"+pos+"'. Exiting.")
 		chr=me.group(1)
-		pos=int(me.group(2))
+		pos=int(float(me.group(2)))
 		out_bed.write(chr+"\t"+str(pos)+"\t"+str(pos+1)+"\n")
 	out_txt.close()
 	out_bed.close()
