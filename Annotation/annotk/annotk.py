@@ -199,6 +199,19 @@ try :
 		me=re.match("^[ \t]*#.*$",line)
 		if me :
 			continue
+
+		#Substitue positional parameters
+		loop=1
+		while loop :
+			me=re.match("^(.*)[$]([0-9])(.*)$",line)
+			if me :
+				before=me.group(1)
+				args=int(me.group(2))
+				after=me.group(3)
+				line=before+sys.argv[args+1]+after
+			else :
+				loop=0
+
 		me=re.match("^file_to_annotate[\t ]+([^#\t]+).*$",line)
 		if me :
 			file_to_annotate=me.group(1)

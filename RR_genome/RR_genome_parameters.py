@@ -71,9 +71,7 @@ def counts(filetype,sequence, rest_site, CG_nb, fragments_number, RR_genome_size
 		elif rest_site == "CACGAG":
 			if re.search('ACGA$', sequence):
 				sequence = sequence[:-4]
-
-
-					
+			
 	# CG number
 	nom = re.compile(r'CG')
 	if nom.findall(sequence):
@@ -114,7 +112,6 @@ def genome_parameters(filename_with_path):
 		line = line.rstrip('\r\n')
 		if line.startswith('>'):
 			if sequence !='':
-
 				values = counts(filetype,sequence, rest_site, CG_nb, fragments_number, RR_genome_size)
 				CG_total_nb = values[0] + CG_total_nb
 				fragments_total_number = values[1] + fragments_total_number
@@ -158,9 +155,12 @@ rest_site = argv[3]
 
 
 RR_genome_total_size,CG_total_nb,fragments_total_number = genome_parameters(filename_with_path)
+print 'RR_genome_total_size',RR_genome_total_size
 
 genome_total_size,genome_CG_number,chromosomes_total_number = genome_parameters(genome_with_path)
-
+print 'genome_total_size',genome_total_size
+print genome_CG_number
+print chromosomes_total_number
 
 output_file = os.path.basename(filename_with_path) + "_results" + ".txt"
 ofh = open(output_file, "w")  
@@ -172,6 +172,7 @@ ofh.write(os.path.basename(filename_with_path)+'\t'+str(RR_genome_total_size)+'\
 
 
 pct_whole_genome = (RR_genome_total_size/float(genome_total_size))*100
+print 'pct_whole_genome',pct_whole_genome
 pct_CG_whole_genome = (CG_total_nb/float(genome_CG_number))*100
 
 pct_whole_genome = round(pct_whole_genome,1)

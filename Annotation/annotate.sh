@@ -49,6 +49,6 @@ then
 fi
 
 
-$PYTHON_EXECUTE $RRBS_HOME/Annotation/annotk/annotk.py "$1"
+$PYTHON_EXECUTE $RRBS_HOME/Annotation/annotk/annotk.py "$*"
 exit $?
 
