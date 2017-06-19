@@ -25,4 +25,4 @@
 #	Jammes Helene (helene.jammes@inra.fr)		software user and data analysis (research group leader in Epigenetics)
 #	Kiefer Helene (helene.kiefer@inra.fr)		software user and data analysis (principal invertigator in Epigenetics)
 #
-sh ./RR_genome_in_silico.sh genome_example/genome.fasta CCGG 40 220 1
+sh ./RR_genome_in_silico.sh genome_example/Sus_scrofa.Sscrofa10.2.chr18.fa CCGG 40 220 1
